@@ -1,0 +1,65 @@
+﻿@using VCookVEat.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<IEnumerable<IPublishedContent>>
+
+@for (var i = 0; i < Model.Count(); i++)
+{
+    var child = Model.ToList()[i];
+    var imageUrl = string.Empty;
+    var type = string.Empty;
+    var name = string.Empty;
+    var intro = string.Empty;
+    var pageUrl = child.Url;
+
+    switch (child.DocumentTypeAlias)
+    {
+        case "recipe":
+            var mediaItem = Umbraco.TypedMedia(child.GetPropertyValue("recipeImage").ToString());
+            imageUrl = mediaItem == null ? "/media/1009/img-4.jpg" : mediaItem.Url;
+
+            type = child.DocumentTypeAlias.ToUpper();
+            name = Convert.ToString(child.GetPropertyValue("recipeName"));
+            intro = Convert.ToString(child.GetPropertyValue("recipeIntro"));
+            break;
+        case "food":
+            mediaItem = Umbraco.TypedMedia(child.GetPropertyValue("photoOfTheFood").ToString());
+            imageUrl = mediaItem == null ? "/media/1009/img-4.jpg" : mediaItem.Url;
+
+            type = child.DocumentTypeAlias.ToUpper();
+            name = Convert.ToString(child.GetPropertyValue("foodName"));
+            intro = $"{Convert.ToString(child.GetPropertyValue("description"))}...";
+            break;
+        case "tip":
+            imageUrl = Umbraco.TypedMedia("1152").Url;
+            type = child.DocumentTypeAlias.ToUpper();
+            name = Convert.ToString(child.GetPropertyValue("intro"));
+            intro = $"{Convert.ToString(child.GetPropertyValue("tipDescription"))}...";
+            break;
+
+    }
+
+    <div class="item">
+        <div class="hero-flex js-fullheight">
+            <div class="col-three-forth">
+                <div class="hero-img js-fullheight" style="background-image: url(@imageUrl);"></div>
+            </div>
+            <div class="col-one-forth js-fullheight">
+                <div class="display-t js-fullheight">
+                    <div class="display-tc js-fullheight">
+                        <h2 class="number">@(i+1) / @Model.Count()</h2>
+                        <div class="text-inner">
+                            <div class="desc">
+                                <span class="tag">@type</span>
+                                <h2>@name</h2>
+                                <p>@intro</p>
+                                @if (child.DocumentTypeAlias != "tip")
+                                {
+                                <p><a href="@pageUrl" class="btn-view">View Content <i class="">>></i></a></p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

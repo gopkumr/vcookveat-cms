@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Cook>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using VCookVEat.mappers;
+@using VCookVEat.Models;
+@{
+    Layout = "WebBase.cshtml";
+}
+
+<div id="colorlib-blog">
+    <div class="container">
+        <div class="row text-center">
+            <h2 class="bold">Cook</h2>
+        </div>
+
+        <div class="row row-pb-md">
+            @foreach (var publishedContent in CurrentPage.ChildrenAsList())
+            {
+                @Html.Partial("SingleRecipe", (RecipeItemViewModel)(DynamicContentToRecipeItemMapper.Convert(publishedContent)))
+            }
+        </div>
+    </div>
+</div>

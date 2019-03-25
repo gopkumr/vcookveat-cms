@@ -1,0 +1,20 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "WebBase.cshtml";
+}
+
+<div id="colorlib-work">
+    <div class="container">
+        <div class="row text-center">
+            <h2 class="bold">Tips</h2>
+        </div>
+        <div class="row">
+
+            @foreach (var publishedContent in Model.Content.Children())
+            {
+                @Html.Partial("SingleTip",publishedContent)
+            }
+
+        </div>
+    </div>
+</div>
