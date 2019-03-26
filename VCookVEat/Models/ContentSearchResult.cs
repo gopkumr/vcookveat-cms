@@ -12,13 +12,19 @@ namespace VCookVEat.Models
     {
         public ContentSearchResult(IPublishedContent content) : base(content)
         {
-
+            Result = new List<ContentResult>();
         }
 
+        public IEnumerable<ContentResult> Result { get; set; }
+       
+        public int Count { get { return Result.Count(); } }
+    }
+
+    public class ContentResult
+    {
         public string ContentId { get; set; }
         public string ContentUrl { get; set; }
-        public string ContentType { get; set;  }
+        public string ContentType { get; set; }
         public string ContentName { get; set; }
-        public int Count { get { return 10; } }
     }
 }
